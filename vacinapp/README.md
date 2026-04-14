@@ -1,26 +1,61 @@
-# 💉 VacinApp - Gestão de Calendário Vacinal
+💉 VacinaHub - Sistema Web de Gestão Vacinal
 
-**Resumo do Projeto:** O VacinApp é uma aplicação focada em gerenciar o calendário vacinal de forma digital. O sistema permite o cadastro de usuários, disponibiliza um catálogo oficial de vacinas, registra doses aplicadas e calcula automaticamente a data de retorno para novas doses, ajudando o usuário a manter sua imunização em dia.
+📌 Resumo do Projeto:
+O VacinaHub é um sistema web desenvolvido para o gerenciamento inteligente do calendário vacinal de usuários e seus dependentes. A plataforma permite o cadastro de pessoas (como filhos, pais e outros familiares), oferecendo um acompanhamento completo da imunização, com alertas automáticos e recomendações personalizadas com base na idade e histórico vacinal.
 
-## 🎯 Problema e Público-Alvo
-* **Problema que resolve:** A perda do cartão físico e o esquecimento do esquema vacinal, que frequentemente gera atrasos na imunização devido à confusão sobre intervalos de doses.
-* **Público-alvo:** Jovens adultos, pais e responsáveis que precisam centralizar e gerenciar o histórico de vacinas próprio e de seus dependentes de forma segura.
+Além disso, o sistema auxilia o usuário na localização de postos de saúde próximos e no controle das vacinas necessárias, promovendo mais organização e prevenção.
 
-## ✨ Funcionalidades
-1. **Gestão de Usuários:** Cadastro e validação de perfis.
-2. **Catálogo de Vacinas:** Consulta a uma lista padronizada de vacinas oficiais e seus intervalos.
-3. **Registro de Imunização:** Cadastro de doses tomadas vinculadas ao catálogo oficial.
-4. **Cálculo de Próxima Dose (Regra Central):** Projeção automática da data da próxima dose com base no histórico e nas regras de intervalo da vacina.
-5. **Localização:** Busca de pontos de vacinação (UBS) próximos.
+🎯 Problema e Público-Alvo
 
-## 🛠️ Tecnologias Utilizadas
-* **Linguagem:** Java 17+
-* **Gerenciador de Dependências:** Maven
-* **Testes Automatizados:** JUnit 5 (Unitários) e Cucumber (BDD)
-* **Arquitetura:** Camadas (Domain, Service, Infra, UI)
+Problema que resolve:
+A perda do cartão de vacinação físico, a dificuldade em acompanhar múltiplos perfis familiares e o esquecimento de prazos de vacinação, que podem comprometer a imunização adequada.
 
-## 🚀 Como Executar o Projeto
+Público-alvo:
+Jovens adultos
+Pais e responsáveis
+Pessoas que cuidam de idosos
+Usuários que desejam centralizar o controle vacinal da família
 
-1. Clone este repositório:
-   ```bash
-   git clone [https://github.com/seu-usuario/vacinapp.git](https://github.com/seu-usuario/vacinapp.git)
+✨ Funcionalidades
+
+👤 Gestão de Usuários:
+Cadastro e autenticação de usuários
+Cadastro de dependentes (filhos, pais, etc.)
+Gerenciamento de múltiplos perfis vinculados a uma conta
+
+💉 Controle Vacinal:
+Registro de vacinas aplicadas
+Histórico completo por indivíduo
+Identificação de vacinas pendentes com base na idade
+
+📅 Alertas Inteligentes:
+Notificações por e-mail sobre vacinas pendentes
+Lembretes automáticos de próximas doses
+
+📊 Regras de Vacinação:
+Sugestão de vacinas com base na faixa etária
+Cálculo automático de datas para reforço ou novas doses
+📍 Localização de Postos de Saúde:
+Busca de unidades de saúde próximas (UBS)
+Utilização de endereço cadastrado ou localização em tempo real
+
+🔗 Integrações:
+Integração com API externa de dados vacinais (quando disponível)
+Integração com serviços de geolocalização
+
+🛠️ Tecnologias Utilizadas
+
+Linguagem: Java 17+
+Gerenciador de Dependências: Maven
+Testes: JUnit 5 e Cucumber (BDD)
+Arquitetura: Camadas (Domain, Service, Infra, UI)
+Web: (Spring Boot recomendado)
+Banco de Dados: (MySQL ou PostgreSQL)
+API de Mapas: Google Maps API ou OpenStreetMap
+
+🚀 Possíveis Melhorias Futuras
+
+Aplicativo mobile integrado
+Integração com sistemas públicos de saúde
+Dashboard com estatísticas de vacinação
+Notificações via SMS ou push

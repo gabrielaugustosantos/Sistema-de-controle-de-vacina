@@ -1,11 +1,17 @@
 package vacinahub;
 
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class AuthService {
 
     private List<Usuario> usuarios = new ArrayList<>();
+
+    public AuthService() {
+        this.usuarios.add(new Usuario("Maria", "maria@email.com", "123456"));
+    }
 
     public String cadastrar(String nome, String email, String senha) {
         if (senha.length() < 6) {

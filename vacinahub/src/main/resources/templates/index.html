@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacinaHub - Login</title>
+    <style>
+        /* Estilos Globais */
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; }
+
+        /* Container Principal (Dividido em Esquerda e Direita) */
+        .container { display: flex; max-width: 1000px; width: 90%; background: transparent; gap: 50px; align-items: center; }
+
+        /* Lado Esquerdo - Apresentação */
+        .left-side { flex: 1; padding: 20px; }
+        .logo { display: flex; align-items: center; font-size: 28px; font-weight: bold; color: #1e5b99; margin-bottom: 20px; }
+        .logo span { font-size: 32px; margin-right: 10px; }
+        .left-side h1 { font-size: 42px; color: #27ae60; line-height: 1.1; margin-bottom: 15px; }
+        .left-side p { font-size: 18px; color: #555; line-height: 1.5; margin-bottom: 30px; }
+        .illustration { font-size: 80px; text-align: center; } /* Placeholder para a imagem da família */
+
+        /* Lado Direito - Caixa de Login */
+        .right-side { flex: 1; display: flex; justify-content: center; }
+        .login-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; border: 1px solid #e0e0e0; }
+        
+        /* Abas do Formulário */
+        .tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 25px; }
+        .tab { flex: 1; text-align: center; padding: 10px; font-weight: bold; color: #888; cursor: pointer; font-size: 14px; }
+        .tab.active { color: #1e5b99; border-bottom: 3px solid #1e5b99; }
+
+        /* Formulário */
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 14px; color: #333; margin-bottom: 5px; font-weight: bold; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; }
+        .input-group input:focus { border-color: #1e5b99; }
+
+        /* Botão e Link */
+        .btn-submit { width: 100%; background-color: #1e5b99; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-submit:hover { background-color: #154374; }
+        .forgot-password { display: block; text-align: center; margin-top: 15px; color: #888; text-decoration: none; font-size: 13px; }
+        .forgot-password:hover { text-decoration: underline; color: #1e5b99; }
+
+        /* Responsividade para celulares */
+        @media (max-width: 768px) {
+            .container { flex-direction: column; text-align: center; }
+            .illustration { display: none; } /* Esconde a ilustração no celular para economizar espaço */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-side">
+            <div class="logo">
+                <span>🛡️</span> VacinaHub
+            </div>
+            <h1>Bem-vindo ao<br>VacinaHub</h1>
+            <p>Não perca mais nenhuma dose.<br>Gerencie a vacinação da sua família<br>com facilidade.</p>
+            <div class="illustration">👨‍👩‍👧‍👦 📅</div>
+        </div>
+
+        <div class="right-side">
+            <div class="login-box">
+                <div class="tabs">
+                    <div class="tab active">CONTA EXISTENTE</div>
+                    <div class="tab">CADASTRAR</div>
+                </div>               
+                <form action="/login" method="POST">
+                    
+                    <div th:if="${mensagemErro}" style="color: #e74c3c; background: #fadbd8; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-size: 14px;" th:text="${mensagemErro}"></div>
+                    <div th:if="${mensagemSucesso}" style="color: #27ae60; background: #d5f5e3; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-size: 14px;" th:text="${mensagemSucesso}"></div>
+
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="Digite seu email" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Senha</label>
+                        <input type="password" name="senha" placeholder="Digite sua senha" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">ENTRAR</button>
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

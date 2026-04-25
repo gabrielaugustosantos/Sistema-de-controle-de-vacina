@@ -1,0 +1,17 @@
+# Ignorar arquivos compilados e relatórios do Maven (O Mais Importante!)
+target/
+*.class
+
+# Ignorar arquivos de configuração da IDE (VS Code, Eclipse, IntelliJ)
+.vscode/
+.idea/
+*.project
+*.classpath
+*.settings/
+
+# Ignorar arquivos temporários do Windows/Mac
+Thumbs.db
+.DS_Store
+
+# Ignorar logs
+*.log

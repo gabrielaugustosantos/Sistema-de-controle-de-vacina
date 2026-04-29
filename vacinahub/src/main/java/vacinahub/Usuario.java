@@ -9,7 +9,7 @@ public class Usuario {
     private Long id;
     private String nome;
     private String email;
-    private String senha; // <-- Adicionado para a Autenticação
+    private String senha;
     private LocalDate dataNascimento;
 
     private List<Dependente> dependentes;

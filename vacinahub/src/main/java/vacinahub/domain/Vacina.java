@@ -1,4 +1,4 @@
-package vacinahub;
+package vacinahub.domain;
 
 public class Vacina {
 

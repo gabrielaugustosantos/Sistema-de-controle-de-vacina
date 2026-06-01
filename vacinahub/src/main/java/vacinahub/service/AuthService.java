@@ -1,6 +1,9 @@
-package vacinahub;
+package vacinahub.service;
 
 import org.springframework.stereotype.Service;
+
+import vacinahub.domain.Usuario;
+
 import java.util.ArrayList;
 import java.util.List;
 

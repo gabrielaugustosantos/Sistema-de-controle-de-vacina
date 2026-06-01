@@ -2,6 +2,8 @@ package vacinahub;
 
 import org.junit.jupiter.api.Test;
 
+import vacinahub.service.AuthService;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthServiceTest {

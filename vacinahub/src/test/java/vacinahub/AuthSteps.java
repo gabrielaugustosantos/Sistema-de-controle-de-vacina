@@ -1,6 +1,7 @@
 package vacinahub;
 
 import io.cucumber.java.pt.*;
+import vacinahub.service.AuthService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacinaHub - Meu Painel</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f4f7f6; }
+        
+        /* Barra de Navegação Superior */
+        .navbar { background-color: #1e5b99; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; }
+        .btn-logout { color: white; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .btn-logout:hover { text-decoration: underline; }
+
+        /* Corpo do Painel */
+        .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+        .header-painel { margin-bottom: 30px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .header-painel h2 { color: #27ae60; font-size: 28px;}
+        .header-painel p { color: #555; margin-top: 5px; }
+
+        /* Cartões de Informação */
+        .cards-container { display: flex; gap: 20px; flex-wrap: wrap; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex: 1; min-width: 300px; border-top: 4px solid #1e5b99; }
+        .card h3 { color: #333; margin-bottom: 15px; font-size: 20px; }
+        .card p { color: #666; margin-bottom: 15px; }
+        
+        /* Botões de Ação nos Cartões */
+        .btn-acao { display: inline-block; background-color: #27ae60; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; }
+        .btn-acao:hover { background-color: #219653; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">🛡️ VacinaHub</div>
+        <!-- O link joga de volta para a raiz, simulando o logout -->
+        <a href="/" class="btn-logout">Sair da Conta</a>
+    </nav>
+
+    <div class="container">
+        <div class="header-painel">
+            <!-- O Thymeleaf vai trocar o "Usuária" pelo nome que o Controller mandar -->
+            <h2>Bem-vinda, <span th:text="${nomeUsuario}">Usuária</span>!</h2>
+            <p>Acompanhe a sua caderneta vacinal e a dos seus dependentes.</p>
+        </div>
+
+        <div class="cards-container">
+            <div class="card">
+                <h3>💉 Minhas Vacinas</h3>
+                <p>Nenhuma dose pendente no momento. Mantenha sua carteira atualizada!</p>
+                <a href="#" class="btn-acao">Registrar Nova Vacina</a>
+            </div>
+
+            <div class="card">
+                <h3>👨‍👩‍👧‍👦 Meus Dependentes</h3>
+                <p>Nenhum dependente cadastrado. Adicione sua família para acompanhar as doses.</p>
+                <a href="#" class="btn-acao">+ Adicionar Dependente</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

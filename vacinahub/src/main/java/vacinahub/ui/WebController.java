@@ -22,6 +22,7 @@ public class WebController {
     }
 
     // Nova rota que recebe os dados do HTML
+    // Rota que recebe os dados do HTML de login
     @PostMapping("/login")
     public String fazerLogin(@RequestParam String email, @RequestParam String senha, Model model) {
         
@@ -29,19 +30,17 @@ public class WebController {
         String resultado = authService.login(email, senha);
 
         if (resultado.equals("Login realizado com sucesso")) {
-            // Deu certo! Manda uma mensagem verde pra tela
-            model.addAttribute("mensagemSucesso", "Bem-vinda, Maria! Redirecionando para a caderneta...");
-            return "index"; 
+            // Sucesso! Colocamos o nome na mochila do Model para o Thymeleaf exibir no h2 da tela.
+            // (Para este MVP, deixamos fixo. No futuro, puxaremos o nome real do banco).
+            model.addAttribute("nomeUsuario", "Maria"); 
+            
+            // Retorna o nome do novo arquivo HTML (dashboard.html)
+            return "dashboard"; 
         } else {
-            // Deu erro! Manda a mensagem vermelha pra tela
+            // Erro! Devolve para a tela inicial com o aviso em vermelho
             model.addAttribute("mensagemErro", resultado);
             return "index";
         }
-    }
-    // Rota para mostrar a tela de cadastro
-    @GetMapping("/cadastro")
-    public String paginaCadastro() {
-        return "cadastro";
     }
 
     // Rota que recebe os dados do formulário HTML

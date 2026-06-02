@@ -38,4 +38,27 @@ public class WebController {
             return "index";
         }
     }
+    // Rota para mostrar a tela de cadastro
+    @GetMapping("/cadastro")
+    public String paginaCadastro() {
+        return "cadastro";
+    }
+
+    // Rota que recebe os dados do formulário HTML
+    @PostMapping("/cadastrar")
+    public String fazerCadastro(@RequestParam String nome, @RequestParam String email, @RequestParam String senha, Model model) {
+        
+        // Pede para o serviço processar a regra de negócio
+        String resultado = authService.cadastrar(nome, email, senha);
+
+        if (resultado.equals("Cadastro realizado com sucesso")) {
+            // Se deu certo, manda uma mensagem verde e joga o usuário de volta para a tela de login
+            model.addAttribute("mensagemSucesso", "Conta criada com sucesso! Faça seu login.");
+            return "index"; 
+        } else {
+            // Se deu erro (senha curta, email já usado), devolve o erro e mantém na tela de cadastro
+            model.addAttribute("mensagemErro", resultado);
+            return "cadastro";
+        }
+    }
 }

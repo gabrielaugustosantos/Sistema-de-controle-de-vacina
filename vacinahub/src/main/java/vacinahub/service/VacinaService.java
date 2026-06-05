@@ -1,10 +1,12 @@
 package vacinahub.service;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
+
+import vacinahub.domain.DoseStatus;
 import vacinahub.domain.RegistroVacina;
 import vacinahub.domain.Vacina;
-import vacinahub.domain.DoseStatus;
-import java.time.LocalDate;
 
 @Service
 public class VacinaService {

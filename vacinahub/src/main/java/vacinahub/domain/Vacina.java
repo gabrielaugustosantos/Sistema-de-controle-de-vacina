@@ -1,5 +1,7 @@
 package vacinahub.domain;
 
+import java.util.List;
+
 public class Vacina {
 
     private Long id;
@@ -8,6 +10,8 @@ public class Vacina {
     private int dosesNecessarias;
     private int mesesIntervalo; // Tempo de espera entre as doses (se houver mais de uma)
 
+    private List<RegistroVacina> registros;
+    
     // Construtor vazio
     public Vacina() {
     }
@@ -36,4 +40,11 @@ public class Vacina {
 
     public int getMesesIntervalo() { return mesesIntervalo; }
     public void setMesesIntervalo(int mesesIntervalo) { this.mesesIntervalo = mesesIntervalo; }
+
+    // Um para vários
+    public List<RegistroVacina> getRegistros() { return registros; }
+
+    public void adicionarRegistro(RegistroVacina registro) {
+        this.registros.add(registro);
+    }
 }

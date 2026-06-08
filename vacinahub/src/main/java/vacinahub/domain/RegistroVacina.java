@@ -36,6 +36,7 @@ public class RegistroVacina {
     public DoseStatus getDoseStatus() { return status;}
 
     public void setDataProximaDose(LocalDate dataProximaDose) { this.dataProximaDose = dataProximaDose; }
-    public void setStatus(DoseStatus status) { this.status = status; }
+    public void setStatus(DoseStatus status) { this.status = status; } 
+    public void setDataAplicacao(LocalDate dataAplicacao) { this.dataAplicacao = dataAplicacao; } 
   
 }

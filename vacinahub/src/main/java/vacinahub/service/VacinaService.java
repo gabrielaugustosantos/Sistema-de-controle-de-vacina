@@ -16,12 +16,18 @@ public class VacinaService {
         Usuario usuario,
         Vacina vacina,
         int dose,
-        DoseStatus status){
-            
-            return null;
+        DoseStatus status)
+        {
+            RegistroVacina registro = new RegistroVacina(
+            usuario,
+            vacina,
+            dose,
+            status);
+
+            return registro;
         }
 
-
+    
     public RegistroVacina agendarProximaDose(RegistroVacina registroAtual) {
         Vacina vacina = registroAtual.getVacina();
         Usuario usuario = registroAtual.getUsuario();
@@ -38,6 +44,6 @@ public class VacinaService {
             
             return proximoAgendamento;
         }
-        return null; 
+        return null;
     }
 }

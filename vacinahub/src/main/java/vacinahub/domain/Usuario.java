@@ -13,7 +13,7 @@ public class Usuario {
     private LocalDate dataNascimento;
 
     private List<Dependente> dependentes;
-    private List<RegistroVacina> registros;
+
     // Construtor Padrão
     public Usuario() {
         this.dependentes = new ArrayList<>();
@@ -25,7 +25,6 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.dependentes = new ArrayList<>();
-        this.registros = new ArrayList<>();
     }
 
     // Construtor Completo
@@ -36,7 +35,6 @@ public class Usuario {
         this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.dependentes = new ArrayList<>();
-        this.registros = new ArrayList<>();
     }
 
     // Getters e Setters
@@ -55,16 +53,9 @@ public class Usuario {
     public LocalDate getDataNascimento() { return dataNascimento; }
     public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
 
-    // Um para vários
     public List<Dependente> getDependentes() { return dependentes; }
 
     public void adicionarDependente(Dependente dependente) {
         this.dependentes.add(dependente);
-    }
-
-    public List<RegistroVacina> getRegistros() { return registros; }
-
-    public void adicionarRegistro(RegistroVacina registro) {
-        this.registros.add(registro);
     }
 }

@@ -41,6 +41,16 @@ public class AuthService {
         return "Email ou senha inválidos";
     }
 
+    // Busca um usuário pelo e-mail (usado para identificar o usuário logado)
+    public Usuario buscarPorEmail(String email) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getEmail().equals(email)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
     public int totalUsuarios() {
         return usuarios.size();
     }

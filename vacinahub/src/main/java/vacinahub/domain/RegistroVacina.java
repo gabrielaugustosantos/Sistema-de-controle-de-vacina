@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class RegistroVacina {
     private Long id;
-    private Usuario usuario;
+    private Usuario usuario; // Vínculo com o dono da vacina
     private Vacina vacina;
     private int doseAtual;
     private LocalDate dataAplicacao;

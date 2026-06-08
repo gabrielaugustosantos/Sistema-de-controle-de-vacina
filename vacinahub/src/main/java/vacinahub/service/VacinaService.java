@@ -1,29 +1,36 @@
 package vacinahub.service;
 
-import org.springframework.stereotype.Service;
-import vacinahub.domain.RegistroVacina;
-import vacinahub.domain.Vacina;
-import vacinahub.domain.DoseStatus;
 import java.time.LocalDate;
+import vacinahub.domain.DoseStatus;
+import vacinahub.domain.RegistroVacina;
+import vacinahub.domain.Usuario;
+import vacinahub.domain.Vacina;
 
-@Service
 public class VacinaService {
 
-    public RegistroVacina agendarProximaDose(RegistroVacina registroAtual) {
-        Vacina vacina = registroAtual.getVacina();
-        
-        if (registroAtual.getDoseAtual() < vacina.getDosesNecessarias()) {
-            LocalDate proximaData = registroAtual.getDataAplicacao()
-                                    .plusMonths(vacina.getMesesIntervalo());
+    public RegistroVacina registrarAplicacao(Usuario usuario, Vacina vacina, int doseAtual, DoseStatus status) {
+        return new RegistroVacina(usuario, vacina, doseAtual, status);
+    }
+
+    // Regra de negócio não-trivial
+    public RegistroVacina agendarProximaDose(RegistroVacina doseAtual) {
+        Vacina vacina = doseAtual.getVacina();
+
+        if (doseAtual.getDoseAtual() < vacina.getDosesNecessarias()) {
             
-            RegistroVacina proximoAgendamento = new RegistroVacina(vacina, 
-                registroAtual.getDoseAtual() + 1, null);
+            LocalDate proximaData = doseAtual.getDataAplicacao().plusMonths(vacina.getMesesIntervalo());
             
-            proximoAgendamento.setDataProximaDose(proximaData);
-            proximoAgendamento.setStatus(DoseStatus.PENDENTE);
+            RegistroVacina proximaDose = new RegistroVacina(
+                doseAtual.getUsuario(), 
+                vacina, 
+                doseAtual.getDoseAtual() + 1, 
+                DoseStatus.PENDENTE
+            );
+            proximaDose.setDataProximaDose(proximaData);
             
-            return proximoAgendamento;
+            return proximaDose;
         }
-        return null; 
+        
+        return null;
     }
 }

@@ -15,7 +15,7 @@ import vacinahub.service.VacinaService;
 public class VacinaServiceTest {
     
     @Test
-    void deveRegsitraraAplicacaoDeVacina() {
+    void deveRegistrarAplicacaoDeVacina() {
         // Setup
         VacinaService service = new VacinaService();
         
@@ -27,7 +27,7 @@ public class VacinaServiceTest {
 
         Vacina vacina = new Vacina(
             1L,
-            "Cancer",
+            "HPV",
             "Adultos",
             2,
             6
@@ -58,7 +58,7 @@ public class VacinaServiceTest {
 
         Usuario usuario = new Usuario(
             "Mario",
-            "Mario@email.com",
+            "mario@email.com",
             "12345"
         );
 
@@ -86,14 +86,10 @@ public class VacinaServiceTest {
         // Asserts
         assertNotNull(proximaDose);
         assertEquals(2, proximaDose.getDoseAtual());
-        assertEquals(DoseStatus.PENDENTE,
-                    proximaDose.getDoseStatus());
+        assertEquals(DoseStatus.PENDENTE, proximaDose.getDoseStatus());
 
         assertEquals(
                 LocalDate.of(2026, 8, 8),
                 proximaDose.getDataProximaDose());
-
-
-        
     }
 }

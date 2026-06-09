@@ -1,12 +1,18 @@
 package vacinahub.domain;
 
 import java.time.LocalDate;
+import jakarta.persistence.*;
 
+
+@Entity
+@Table(name = "tb_dependente")
 /**
  * Classe que representa um membro da família (dependente) vinculado a um Usuário principal.
  */
 public class Dependente {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private LocalDate dataNascimento;

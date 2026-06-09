@@ -1,7 +1,12 @@
 package vacinahub.domain;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "tb_vacina")
 public class Vacina {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String publicoAlvo; // Ex: Crianças, Idosos, Adultos, Geral

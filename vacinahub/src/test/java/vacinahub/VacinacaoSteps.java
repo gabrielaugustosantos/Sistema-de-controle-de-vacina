@@ -1,4 +1,4 @@
-﻿package vacinahub;
+package vacinahub;
 
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.E;

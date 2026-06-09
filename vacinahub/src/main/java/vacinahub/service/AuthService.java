@@ -1,57 +1,46 @@
 package vacinahub.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import vacinahub.domain.Usuario;
-
-import java.util.ArrayList;
-import java.util.List;
+import vacinahub.infra.UsuarioRepository;
 
 @Service
 public class AuthService {
-
-    private List<Usuario> usuarios = new ArrayList<>();
-
-    public AuthService() {
-        this.usuarios.add(new Usuario("Maria", "maria@email.com", "123456"));
-    }
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public String cadastrar(String nome, String email, String senha) {
-        if (senha.length() < 6) {
+        if (senha == null || senha.length() < 6) {
             return "Senha deve ter no mínimo 6 caracteres";
         }
 
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equals(email)) {
-                return "Email já cadastrado";
-            }
+        // Busca direto na tabela se o e-mail já existe
+        if (usuarioRepository.findByEmail(email) != null) {
+            return "Email já cadastrado";
         }
 
-        usuarios.add(new Usuario(nome, email, senha));
+        Usuario novoUsuario = new Usuario(nome, email, senha);
+        usuarioRepository.save(novoUsuario); // Salva o registro no banco H2
         return "Cadastro realizado com sucesso";
     }
 
     public String login(String email, String senha) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
-                return "Login realizado com sucesso";
-            }
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        
+        if (usuario != null && usuario.getSenha().equals(senha)) {
+            return "Login realizado com sucesso";
         }
 
         return "Email ou senha inválidos";
     }
 
-    // Busca um usuário pelo e-mail (usado para identificar o usuário logado)
     public Usuario buscarPorEmail(String email) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equals(email)) {
-                return usuario;
-            }
-        }
-        return null;
+        return usuarioRepository.findByEmail(email);
     }
 
-    public int totalUsuarios() {
-        return usuarios.size();
+    public long totalUsuarios() {
+        return usuarioRepository.count(); // Retorna o total de registros salvos na tabela
     }
 }

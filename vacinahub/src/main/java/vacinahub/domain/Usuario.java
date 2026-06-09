@@ -4,15 +4,26 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "tb_usuario")
 public class Usuario {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+
+    @Column(unique = true)
     private String email;
     private String senha;
     private LocalDate dataNascimento;
 
-    private List<Dependente> dependentes;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_id")
+    private List<Dependente> dependentes = new ArrayList<>();
+
 
     // Construtor Padrão
     public Usuario() {

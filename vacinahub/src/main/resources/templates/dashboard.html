@@ -62,7 +62,7 @@
     </div>
     <nav>
         <a href="/dashboard" class="active"><span class="icon">🏠</span> Visão Geral</a>
-        <a href="#"><span class="icon">📋</span> Minha Caderneta</a>
+        <a href="/caderneta"><span class="icon">📋</span> Minha Caderneta</a>
         <a th:href="@{/cadastrar-dependente(emailUsuario=${emailUsuario})}"><span class="icon">👥</span> Dependentes</a>
         <a href="#"><span class="icon">📍</span> Postos Próximos</a>
     </nav>
@@ -83,14 +83,16 @@
 
         <div th:if="${mensagemSucesso}" class="alerta-sucesso" th:text="${mensagemSucesso}"></div>
 
-        <div class="card-destaque">
-            <div>
-                <div class="label">PRÓXIMA VACINA</div>
-                <h3>Gripe - 15/06</h3>
-                <button class="btn-detalhes">Ver Detalhes</button>
-            </div>
-            <div style="font-size:60px;">💉</div>
-        </div>
+        <div class="card-body">
+    <div th:if="${not #lists.isEmpty(registros)}">
+        <h5 class="text-primary">Histórico Atual</h5>
+        <p>Você tem <span th:text="${#lists.size(registros)}"></span> vacinas registradas.</p>
+    </div>
+    <div th:if="${#lists.isEmpty(registros)}">
+        <p>Nenhuma vacina registrada. Comece agora!</p>
+        <a href="/registrar-vacina" class="btn btn-success">Registrar Primeira</a>
+    </div>
+</div>
 
         <div class="card-situacao">
             <h4>SITUAÇÃO GERAL</h4>

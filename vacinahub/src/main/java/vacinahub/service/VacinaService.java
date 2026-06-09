@@ -1,18 +1,26 @@
 package vacinahub.service;
 
 import java.time.LocalDate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import vacinahub.domain.DoseStatus;
 import vacinahub.domain.RegistroVacina;
 import vacinahub.domain.Usuario;
 import vacinahub.domain.Vacina;
+import vacinahub.infra.RegistroVacinaRepository;
 
+@Service
 public class VacinaService {
 
+    @Autowired
+    private RegistroVacinaRepository registroVacinaRepository;
+
     public RegistroVacina registrarAplicacao(Usuario usuario, Vacina vacina, int doseAtual, DoseStatus status) {
-        return new RegistroVacina(usuario, vacina, doseAtual, status);
+        RegistroVacina registro = new RegistroVacina(usuario, vacina, doseAtual, status);
+        return registroVacinaRepository.save(registro); // Persiste a aplicação da vacina no banco
     }
 
-    // Regra de negócio não-trivial
     public RegistroVacina agendarProximaDose(RegistroVacina doseAtual) {
         Vacina vacina = doseAtual.getVacina();
 
@@ -28,7 +36,7 @@ public class VacinaService {
             );
             proximaDose.setDataProximaDose(proximaData);
             
-            return proximaDose;
+            return registroVacinaRepository.save(proximaDose); // Persiste o agendamento futuro no banco
         }
         
         return null;

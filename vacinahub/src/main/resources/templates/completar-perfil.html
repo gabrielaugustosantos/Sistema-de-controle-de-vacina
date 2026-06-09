@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VacinaHub — Complete seu Perfil</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root { --primary:#1a56a0; --primary-dark:#154080; --accent:#27ae60; --bg:#f0f4f8; --card:#fff; --text:#1a1a2e; --text-muted:#6b7280; --border:#e5e7eb; }
+    [data-theme="dark"] { --primary:#3b82f6; --bg:#0f172a; --card:#1e293b; --text:#f1f5f9; --text-muted:#94a3b8; --border:#334155; }
+    * { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI',system-ui,sans-serif; }
+    body { min-height:100vh; background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; transition:background 0.3s; }
+    .theme-toggle { position:fixed; top:20px; right:20px; background:var(--card); border:1px solid var(--border); border-radius:50%; width:42px; height:42px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-muted); }
+    .container { width:100%; max-width:480px; padding:24px; }
+    .logo-wrap { display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:32px; }
+    .logo-wrap img { height:44px; }
+    .logo-wrap span { font-size:22px; font-weight:700; color:var(--primary); }
+    .card { background:var(--card); border-radius:16px; padding:40px; box-shadow:0 4px 24px rgba(0,0,0,0.08); }
+    .card-icon { width:56px; height:56px; background:var(--primary); border-radius:14px; display:flex; align-items:center; justify-content:center; color:white; margin-bottom:20px; }
+    .card h2 { font-size:22px; font-weight:700; margin-bottom:8px; }
+    .card p { font-size:14px; color:var(--text-muted); margin-bottom:28px; line-height:1.5; }
+    .form-group { margin-bottom:18px; }
+    .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:7px; }
+    .input-wrap { position:relative; }
+    .input-wrap .icon { position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--text-muted); width:16px; height:16px; }
+    .form-group input, .form-group select { width:100%; padding:11px 12px 11px 40px; border:1.5px solid var(--border); border-radius:10px; font-size:14px; background:var(--bg); color:var(--text); outline:none; transition:border 0.2s; }
+    .form-group input:focus, .form-group select:focus { border-color:var(--primary); }
+    .btn { width:100%; padding:13px; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+    .btn-primary { background:var(--primary); color:white; }
+    .btn-primary:hover { background:var(--primary-dark); }
+    .gender-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .gender-option input { display:none; }
+    .gender-option label { display:flex; flex-direction:column; align-items:center; gap:8px; padding:16px; border:2px solid var(--border); border-radius:12px; cursor:pointer; font-size:13px; font-weight:600; transition:all 0.2s; color:var(--text-muted); }
+    .gender-option label:hover { border-color:var(--primary); color:var(--primary); }
+    .gender-option input:checked + label { border-color:var(--primary); background:rgba(26,86,160,0.08); color:var(--primary); }
+    [data-theme="dark"] .gender-option input:checked + label { background:rgba(59,130,246,0.15); }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <i data-lucide="moon" width="18" height="18"></i>
+  </button>
+
+  <div class="container">
+    <div class="logo-wrap">
+      <img src="/images/logo.png" alt="VacinaHub" onerror="this.style.display='none'">
+      <span>VacinaHub</span>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <i data-lucide="user-check" width="28" height="28"></i>
+      </div>
+      <h2>Complete seu perfil</h2>
+      <p>Para receber recomendações de vacinas personalizadas, precisamos de mais algumas informações sobre você.</p>
+
+      <form action="/completar-perfil" method="POST">
+        <div class="form-group">
+          <label>Data de Nascimento</label>
+          <div class="input-wrap">
+            <i data-lucide="calendar" class="icon"></i>
+            <input type="date" name="dataNascimento" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Gênero</label>
+          <div class="gender-grid">
+            <div class="gender-option">
+              <input type="radio" name="genero" id="masculino" value="M" required>
+              <label for="masculino">
+                <i data-lucide="user" width="22" height="22"></i>
+                Masculino
+              </label>
+            </div>
+            <div class="gender-option">
+              <input type="radio" name="genero" id="feminino" value="F">
+              <label for="feminino">
+                <i data-lucide="user" width="22" height="22"></i>
+                Feminino
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar e continuar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    function toggleTheme() {
+      const c = document.documentElement.getAttribute('data-theme');
+      const n = c === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('theme', n);
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

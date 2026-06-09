@@ -1,8 +1,8 @@
 package vacinahub.domain;
 
 import java.time.LocalDate;
+import java.time.Period; // <-- Importante para calcular a idade
 import jakarta.persistence.*;
-
 
 @Entity
 @Table(name = "tb_dependente")
@@ -17,6 +17,11 @@ public class Dependente {
     private String nome;
     private LocalDate dataNascimento;
     private String parentesco; // Ex: Filho, Filha, Mãe, Pai
+    
+    // AQUI ESTÁ A CORREÇÃO: As anotações que ensinam o banco a ligar as tabelas!
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     // Construtor padrão (vazio)
     public Dependente() {
@@ -30,7 +35,15 @@ public class Dependente {
         this.parentesco = parentesco;
     }
 
-    // Getters e Setters (Métodos para acessar e alterar os atributos protegidos)
+    // Método para a tela calcular a idade automaticamente sem dar erro
+    public int getIdade() {
+        if (this.dataNascimento == null) {
+            return 0;
+        }
+        return Period.between(this.dataNascimento, LocalDate.now()).getYears();
+    }
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -61,5 +74,13 @@ public class Dependente {
 
     public void setParentesco(String parentesco) {
         this.parentesco = parentesco;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
     }
 }

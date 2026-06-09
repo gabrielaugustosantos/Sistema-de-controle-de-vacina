@@ -1,85 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VacinaHub - Cadastro</title>
-    <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; }
-
-        .container { display: flex; max-width: 1000px; width: 90%; background: transparent; gap: 50px; align-items: center; }
-
-        .left-side { flex: 1; padding: 20px; }
-        .logo { display: flex; align-items: center; font-size: 28px; font-weight: bold; color: #1e5b99; margin-bottom: 20px; }
-        .logo span { font-size: 32px; margin-right: 10px; }
-        .left-side h1 { font-size: 42px; color: #27ae60; line-height: 1.1; margin-bottom: 15px; }
-        .left-side p { font-size: 18px; color: #555; line-height: 1.5; margin-bottom: 30px; }
-        .illustration { font-size: 80px; text-align: center; }
-
-        .right-side { flex: 1; display: flex; justify-content: center; }
-        .login-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; border: 1px solid #e0e0e0; }
-        
-        .tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 25px; }
-        .tab { flex: 1; text-align: center; padding: 10px; font-weight: bold; color: #888; text-decoration: none; font-size: 14px; }
-        .tab:hover { color: #1e5b99; }
-        .tab.active { color: #1e5b99; border-bottom: 3px solid #1e5b99; pointer-events: none; }
-
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 14px; color: #333; margin-bottom: 5px; font-weight: bold; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; }
-        .input-group input:focus { border-color: #1e5b99; }
-
-        .btn-submit { width: 100%; background-color: #27ae60; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
-        .btn-submit:hover { background-color: #219653; }
-
-        @media (max-width: 768px) {
-            .container { flex-direction: column; text-align: center; }
-            .illustration { display: none; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VacinaHub — Criar Conta</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root { --primary:#1a56a0; --primary-dark:#154080; --accent:#27ae60; --bg:#f0f4f8; --card:#fff; --text:#1a1a2e; --text-muted:#6b7280; --border:#e5e7eb; }
+    [data-theme="dark"] { --primary:#3b82f6; --primary-dark:#2563eb; --accent:#34d399; --bg:#0f172a; --card:#1e293b; --text:#f1f5f9; --text-muted:#94a3b8; --border:#334155; }
+    * { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI',system-ui,sans-serif; }
+    body { min-height:100vh; background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; transition:background 0.3s,color 0.3s; }
+    .theme-toggle { position:fixed; top:20px; right:20px; background:var(--card); border:1px solid var(--border); border-radius:50%; width:42px; height:42px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:all 0.2s; color:var(--text-muted); }
+    .theme-toggle:hover { color:var(--primary); transform:scale(1.05); }
+    .wrapper { display:flex; width:100%; max-width:1000px; min-height:100vh; }
+    .left-panel { flex:1; background:linear-gradient(135deg,var(--primary) 0%,#0d3b7a 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 50px; color:white; position:relative; overflow:hidden; }
+    .left-panel::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; border-radius:50%; background:rgba(255,255,255,0.05); }
+    .brand { display:flex; align-items:center; gap:14px; margin-bottom:40px; }
+    .brand img { height:52px; filter:brightness(0) invert(1); }
+    .brand-name { font-size:28px; font-weight:700; }
+    .hero-text h1 { font-size:30px; font-weight:800; line-height:1.2; margin-bottom:14px; }
+    .hero-text h1 span { color:#5dde7a; }
+    .hero-text p { font-size:15px; opacity:.8; line-height:1.6; max-width:300px; }
+    .right-panel { width:480px; background:var(--card); display:flex; flex-direction:column; justify-content:center; padding:50px 50px; transition:background 0.3s; overflow-y:auto; }
+    .panel-title { font-size:24px; font-weight:700; margin-bottom:6px; }
+    .panel-sub { font-size:14px; color:var(--text-muted); margin-bottom:28px; }
+    .tabs { display:flex; border-bottom:2px solid var(--border); margin-bottom:28px; }
+    .tab { flex:1; text-align:center; padding:11px; font-size:13px; font-weight:600; color:var(--text-muted); text-decoration:none; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+    .tab:hover { color:var(--primary); }
+    .tab.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
+    .input-wrap { position:relative; }
+    .input-wrap .icon { position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--text-muted); width:16px; height:16px; }
+    .form-group input, .form-group select { width:100%; padding:11px 12px 11px 40px; border:1.5px solid var(--border); border-radius:10px; font-size:14px; background:var(--bg); color:var(--text); outline:none; transition:border 0.2s; }
+    .form-group input:focus, .form-group select:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(26,86,160,0.1); }
+    .form-group.no-icon input, .form-group.no-icon select { padding-left:12px; }
+    .btn-primary { width:100%; background:var(--accent); color:white; border:none; padding:13px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; transition:background 0.2s,transform 0.1s; margin-top:4px; }
+    .btn-primary:hover { background:var(--accent-dark,#1e8449); transform:translateY(-1px); }
+    .alert { padding:11px 15px; border-radius:8px; font-size:13px; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+    .alert-error { background:#fef2f2; color:#b91c1c; border:1px solid #fecaca; }
+    [data-theme="dark"] .alert-error { background:#3f1212; color:#fca5a5; border-color:#7f1d1d; }
+    .hint { font-size:12px; color:var(--text-muted); margin-top:4px; }
+    @media (max-width:768px) { .left-panel{display:none;} .right-panel{width:100%;padding:40px 24px;} .form-row{grid-template-columns:1fr;} }
+  </style>
 </head>
 <body>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <i data-lucide="moon" width="18" height="18"></i>
+  </button>
 
-    <div class="container">
-        <div class="left-side">
-            <div class="logo">
-                <span>🛡️</span> VacinaHub
-            </div>
-            <h1>Proteja quem<br>você ama</h1>
-            <p>Crie sua conta agora e comece a<br>gerenciar as vacinas da sua família<br>em poucos minutos.</p>
-            <div class="illustration">👨‍👩‍👧‍👦 📅</div>
-        </div>
-
-        <div class="right-side">
-            <div class="login-box">
-                <div class="tabs">
-                    <a href="/" class="tab">CONTA EXISTENTE</a>
-                    <a href="/cadastro" class="tab active">CADASTRAR</a>
-                </div>                
-                
-                <form action="/cadastrar" method="POST">
-                    
-                    <div th:if="${mensagemErro}" style="color: #e74c3c; background: #fadbd8; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-size: 14px;" th:text="${mensagemErro}"></div>
-
-                    <div class="input-group">
-                        <label>Nome Completo</label>
-                        <input type="text" name="nome" placeholder="Digite seu nome" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Email</label>
-                        <input type="email" name="email" placeholder="Digite seu email" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Senha</label>
-                        <input type="password" name="senha" placeholder="Crie uma senha (mínimo 6 caracteres)" required>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">CRIAR CONTA</button>
-                </form>
-            </div>
-        </div>
+  <div class="wrapper">
+    <div class="left-panel">
+      <div class="brand">
+        <img src="/images/logo.png" alt="VacinaHub" onerror="this.style.display='none'">
+        <span class="brand-name">VacinaHub</span>
+      </div>
+      <div class="hero-text">
+        <h1>Comece a cuidar<br>da sua <span>saúde</span></h1>
+        <p>Crie sua conta gratuitamente e tenha acesso ao calendário vacinal completo para você e sua família.</p>
+      </div>
     </div>
 
+    <div class="right-panel">
+      <p class="panel-title">Criar conta</p>
+      <p class="panel-sub">Preencha seus dados para começar</p>
+
+      <div class="tabs">
+        <a href="/" class="tab">Entrar</a>
+        <a href="/cadastro" class="tab active">Criar conta</a>
+      </div>
+
+      <div th:if="${mensagemErro}" class="alert alert-error">
+        <i data-lucide="alert-circle" width="16" height="16"></i>
+        <span th:text="${mensagemErro}"></span>
+      </div>
+
+      <form action="/cadastrar" method="POST">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <div class="input-wrap">
+            <i data-lucide="user" class="icon"></i>
+            <input type="text" name="nome" placeholder="Seu nome completo" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <div class="input-wrap">
+            <i data-lucide="mail" class="icon"></i>
+            <input type="email" name="email" placeholder="seu@email.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <div class="input-wrap">
+            <i data-lucide="lock" class="icon"></i>
+            <input type="password" name="senha" placeholder="Mínimo 6 caracteres" required>
+          </div>
+          <p class="hint">A senha deve ter pelo menos 6 caracteres</p>
+        </div>
+        <button type="submit" class="btn-primary">Criar minha conta</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    function toggleTheme() {
+      const c = document.documentElement.getAttribute('data-theme');
+      const n = c === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('theme', n);
+      lucide.createIcons();
+    }
+  </script>
 </body>
 </html>

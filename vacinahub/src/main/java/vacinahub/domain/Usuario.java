@@ -19,10 +19,12 @@ public class Usuario {
     private String email;
     private String senha;
     private LocalDate dataNascimento;
+    private String genero;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
     private List<Dependente> dependentes = new ArrayList<>();
+
 
 
     // Construtor Padrão
@@ -48,6 +50,13 @@ public class Usuario {
         this.dependentes = new ArrayList<>();
     }
 
+    public int getIdade() {
+        if (this.dataNascimento == null) {
+            return 0;
+        }
+        return java.time.Period.between(this.dataNascimento, java.time.LocalDate.now()).getYears();
+    }
+
     // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -69,4 +78,7 @@ public class Usuario {
     public void adicionarDependente(Dependente dependente) {
         this.dependentes.add(dependente);
     }
+    
+    public String getGenero() { return genero; }
+    public void setGenero(String genero) { this.genero = genero; }
 }

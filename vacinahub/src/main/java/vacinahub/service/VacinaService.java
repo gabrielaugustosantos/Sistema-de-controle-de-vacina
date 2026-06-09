@@ -1,13 +1,9 @@
 package vacinahub.service;
 
-import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import vacinahub.domain.DoseStatus;
-import vacinahub.domain.RegistroVacina;
-import vacinahub.domain.Usuario;
-import vacinahub.domain.Vacina;
+import java.time.LocalDate;
+import vacinahub.domain.*;
 import vacinahub.infra.RegistroVacinaRepository;
 
 @Service
@@ -16,29 +12,46 @@ public class VacinaService {
     @Autowired
     private RegistroVacinaRepository registroVacinaRepository;
 
-    public RegistroVacina registrarAplicacao(Usuario usuario, Vacina vacina, int doseAtual, DoseStatus status) {
-        RegistroVacina registro = new RegistroVacina(usuario, vacina, doseAtual, status);
-        return registroVacinaRepository.save(registro); // Persiste a aplicação da vacina no banco
+    // 1. MÉTODO RESTAURADO PARA OS TESTES E REGRA DE NEGÓCIO
+    public RegistroVacina agendarProximaDose(RegistroVacina registroAtual) {
+        Vacina vacina = registroAtual.getVacina();
+        
+        // Regra de parada: Se é dose única ou já atingiu o máximo de doses, não tem próxima
+        if (vacina.getMesesIntervalo() <= 0 || registroAtual.getDoseAtual() >= vacina.getDosesNecessarias()) {
+            return null;
+        }
+
+        RegistroVacina proxima = new RegistroVacina();
+        proxima.setUsuario(registroAtual.getUsuario());
+        proxima.setVacina(vacina);
+        proxima.setDoseAtual(registroAtual.getDoseAtual() + 1); // Soma +1 na dose
+        proxima.setDoseStatus(DoseStatus.PENDENTE); // Fica com status Pendente
+        
+        // Calcula a data da próxima dose
+        LocalDate dataCalculada = registroAtual.getDataAplicacao().plusMonths(vacina.getMesesIntervalo());
+        proxima.setDataProximaDose(dataCalculada);
+        
+        return proxima;
     }
 
-    public RegistroVacina agendarProximaDose(RegistroVacina doseAtual) {
-        Vacina vacina = doseAtual.getVacina();
-
-        if (doseAtual.getDoseAtual() < vacina.getDosesNecessarias()) {
-            
-            LocalDate proximaData = doseAtual.getDataAplicacao().plusMonths(vacina.getMesesIntervalo());
-            
-            RegistroVacina proximaDose = new RegistroVacina(
-                doseAtual.getUsuario(), 
-                vacina, 
-                doseAtual.getDoseAtual() + 1, 
-                DoseStatus.PENDENTE
-            );
-            proximaDose.setDataProximaDose(proximaData);
-            
-            return registroVacinaRepository.save(proximaDose); // Persiste o agendamento futuro no banco
-        }
+    // 2. Método usado pelo WebController
+    public RegistroVacina registrarAplicacao(Usuario usuario, Vacina vacina, LocalDate dataAplicacao, int doseAtual, DoseStatus status) {
+        RegistroVacina registro = new RegistroVacina();
+        registro.setUsuario(usuario);
+        registro.setVacina(vacina);
+        registro.setDoseAtual(doseAtual);
+        registro.setDoseStatus(status);
+        registro.setDataAplicacao(dataAplicacao);
         
-        return null;
+        // Salva a vacina que foi tomada hoje
+        registro = registroVacinaRepository.save(registro);
+
+        // Automático: Gera o registro PENDENTE do futuro e salva no banco!
+        RegistroVacina proxima = agendarProximaDose(registro);
+        if (proxima != null) {
+            registroVacinaRepository.save(proxima);
+        }
+
+        return registro;
     }
 }

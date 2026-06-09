@@ -1,87 +1,118 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Registrar Vacina - VacinaHub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <style>
-        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        .sidebar { background-color: #2161a0; min-height: 100vh; color: white; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
-        .sidebar-logo { font-weight: 800; font-size: 1.3rem; letter-spacing: 0.5px; }
-        .sidebar a {
-            color: rgba(255, 255, 255, 0.7); text-decoration: none; padding: 12px 20px;
-            display: block; border-radius: 4px; margin-bottom: 5px; font-weight: 500; transition: all 0.2s ease-in-out;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            background-color: rgba(255, 255, 255, 0.15); color: white; border-left: 4px solid #ffb100;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VacinaHub — Registrar Vacina</title>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root { 
+      --primary:#1a56a0; --primary-dark:#154080; --primary-light:#e8f0fb; --accent:#27ae60; --accent-dark:#1e8449; --bg:#f0f4f8; --card:#fff; --text:#1a1a2e; --text-muted:#6b7280; --border:#e5e7eb; --sidebar-w:240px; --shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 12px rgba(0,0,0,0.04); 
+    }
+    [data-theme="dark"] { 
+      --primary:#3b82f6; --primary-dark:#2563eb; --primary-light:#1e3a5f; --accent:#34d399; --accent-dark:#059669; --bg:#0f172a; --card:#1e293b; --text:#f1f5f9; --text-muted:#94a3b8; --border:#334155; --shadow:0 1px 3px rgba(0,0,0,0.3),0 4px 12px rgba(0,0,0,0.2); 
+    }
+    * { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI',system-ui,sans-serif; }
+    body { background:var(--bg); color:var(--text); display:flex; min-height:100vh; transition:background 0.3s,color 0.3s; }
+
+    /* Sidebar */
+    .sidebar { width:var(--sidebar-w); background:var(--primary); display:flex; flex-direction:column; min-height:100vh; position:fixed; left:0; top:0; z-index:100; transition:transform 0.3s; }
+    .sidebar-header { padding:22px 20px; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(255,255,255,0.1); }
+    .sidebar-brand { font-size:18px; font-weight:700; color:white; }
+    .sidebar-nav { flex:1; padding:16px 0; }
+    .nav-item { display:flex; align-items:center; gap:12px; padding:12px 20px; color:rgba(255,255,255,0.7); text-decoration:none; font-size:14px; font-weight:500; transition:all 0.2s; border-left:3px solid transparent; }
+    .nav-item:hover { background:rgba(255,255,255,0.1); color:white; }
+    .nav-item.active { background:rgba(255,255,255,0.15); color:white; border-left-color:white; }
+    .sidebar-footer { padding:16px 0; border-top:1px solid rgba(255,255,255,0.1); }
+    .theme-btn { display:flex; align-items:center; gap:12px; padding:12px 20px; color:rgba(255,255,255,0.7); background:none; border:none; font-size:14px; font-weight:500; cursor:pointer; width:100%; transition:all 0.2s; }
+    .theme-btn:hover { color:white; background:rgba(255,255,255,0.1); }
+
+    /* Main Area */
+    .main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; }
+    .topbar { background:var(--card); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); box-shadow:var(--shadow); position:sticky; top:0; z-index:50; }
+    .page-title { font-size:18px; font-weight:700; color:var(--text); }
+    .content { padding:28px; flex:1; display:flex; justify-content:center; align-items:center; }
+
+    /* Form Card */
+    .form-card { background:var(--card); border-radius:16px; padding:35px; box-shadow:var(--shadow); width:100%; max-width:500px; }
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:7px; }
+    .input-wrap { position:relative; }
+    .input-wrap .icon { position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--text-muted); width:16px; height:16px; }
+    
+    form input, form select { width:100%; padding:11px 12px 11px 40px; border:1.5px solid var(--border); border-radius:10px; font-size:14px; background:var(--bg); color:var(--text); outline:none; transition:border 0.2s; }
+    form input:focus, form select:focus { border-color:var(--primary); }
+    
+    .btn-submit { width:100%; background:var(--accent); color:white; border:none; padding:13px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; transition:background 0.2s; margin-top:10px; }
+    .btn-submit:hover { background:var(--accent-dark); }
+    .hint { font-size:12px; color:var(--text-muted); margin-top:6px; line-height:1.4; }
+  </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            
-            <div class="col-md-2 col-lg-2 sidebar p-0 pt-4">
-                <div class="text-center mb-5 sidebar-logo">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3063/3063205.png" width="30" class="me-2 mb-1" style="filter: brightness(0) invert(1);"> 
-                    VacinaHub
-                </div>
-                
-                <div class="px-3">
-                    <a href="/dashboard"><i class="bi bi-house-door me-2"></i> Visão Geral</a>
-                    <a href="/caderneta"><i class="bi bi-journal-medical me-2"></i> Minha Caderneta</a>
-                    <a href="/registrar-vacina" class="active"><i class="bi bi-syringe me-2"></i> Registrar Vacina</a>
-                    <a href="#"><i class="bi bi-people me-2"></i> Dependentes</a>
-                </div>
-                
-                <div class="position-absolute bottom-0 w-100 p-3 text-center" style="max-width: inherit;">
-                    <a href="/" class="btn btn-outline-light btn-sm w-100 py-2" style="border: none; background: rgba(255,255,255,0.1);"><i class="bi bi-box-arrow-left me-1"></i> Sair da Conta</a>
-                </div>
-            </div>
-
-            <div class="col-md-10 col-lg-10 p-5">
-                
-                <div class="d-flex justify-content-between align-items-center mb-5">
-                    <h3 class="fw-bold text-dark" style="letter-spacing: -0.5px;">Registrar Nova Vacina</h3>
-                    <a href="/caderneta" class="btn btn-outline-secondary rounded-pill px-4"><i class="bi bi-arrow-left me-1"></i> Voltar</a>
-                </div>
-
-                <div class="card shadow-sm border-0 rounded-4" style="max-width: 600px;">
-                    <div class="card-header bg-white py-3 border-bottom">
-                        <h5 class="text-secondary mb-0 fw-semibold">Preencha os dados da aplicação</h5>
-                    </div>
-                    <div class="card-body p-4">
-                        
-                        <form action="/registrar-vacina" method="post">
-                            
-                            <div class="mb-4">
-                                <label for="vacinaId" class="form-label fw-semibold text-dark">Qual vacina foi aplicada?</label>
-                                <select class="form-select form-select-lg" id="vacinaId" name="vacinaId" required>
-                                    <option value="" disabled selected>Selecione uma vacina...</option>
-                                    <option th:each="vacina : ${vacinas}" 
-                                            th:value="${vacina.id}" 
-                                            th:text="${vacina.nome} + ' (' + ${vacina.publicoAlvo} + ')'">
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="dataAplicacao" class="form-label fw-semibold text-dark">Data da Aplicação</label>
-                                <input type="date" class="form-control form-control-lg" id="dataAplicacao" name="dataAplicacao" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 mt-2 fw-bold">
-                                <i class="bi bi-check2-circle me-1"></i> Salvar Registro
-                            </button>
-                        </form>
-                        
-                    </div>
-                </div>
-
-            </div>
-        </div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-brand">VacinaHub</span>
     </div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard" class="nav-item"><i data-lucide="layout-dashboard" width="18" height="18"></i><span>Visão Geral</span></a>
+      <a href="/caderneta" class="nav-item"><i data-lucide="clipboard-list" width="18" height="18"></i><span>Minha Caderneta</span></a>
+      <a href="/registrar-vacina" class="nav-item active"><i data-lucide="syringe" width="18" height="18"></i><span>Registrar Vacina</span></a>
+      <a href="/cadastrar-dependente" class="nav-item"><i data-lucide="users" width="18" height="18"></i><span>Dependentes</span></a>
+      <a href="#" class="nav-item"><i data-lucide="map-pin" width="18" height="18"></i><span>Postos Próximos</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-btn" onclick="toggleTheme()"><i data-lucide="moon" width="16" height="16"></i><span>Modo noturno</span></button>
+      <a href="/" class="nav-item logout-item"><i data-lucide="log-out" width="18" height="18"></i><span>Sair da conta</span></a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="page-title">Registrar Vacina</span>
+    </div>
+
+    <div class="content">
+      <div class="form-card">
+        <form action="/registrar-vacina" method="POST">
+          
+          <div class="form-group">
+            <label>Vacina</label>
+            <div class="input-wrap">
+              <i data-lucide="shield" class="icon"></i>
+              <select name="vacinaId" required>
+                <option value="" disabled selected>Selecione a vacina tomada</option>
+                <option th:each="vacina : ${vacinas}" th:value="${vacina.id}" th:text="${vacina.nome}">Febre Amarela</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Data da Aplicação</label>
+            <div class="input-wrap">
+              <i data-lucide="calendar" class="icon"></i>
+              <input type="date" name="dataAplicacao" required>
+            </div>
+          </div>
+
+          <p class="hint">Após salvar, a próxima dose do esquema vacinal será projetada dinamicamente pelo sistema.</p>
+
+          <button type="submit" class="btn-submit">Salvar Registro</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    function toggleTheme() {
+      const c = document.documentElement.getAttribute('data-theme');
+      const n = c === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('theme', n);
+      lucide.createIcons();
+    }
+  </script>
 </body>
 </html>

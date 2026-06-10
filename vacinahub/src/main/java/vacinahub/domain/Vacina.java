@@ -1,6 +1,11 @@
 package vacinahub.domain;
+
 import jakarta.persistence.*;
 
+/**
+ * Entidade que representa uma Vacina no catálogo do sistema.
+ * Contém as regras baseadas no Programa Nacional de Imunizações (PNI).
+ */
 @Entity
 @Table(name = "tb_vacina")
 public class Vacina {
@@ -8,16 +13,21 @@ public class Vacina {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String nome;
     private String publicoAlvo; // Ex: Crianças, Idosos, Adultos, Geral
     private int dosesNecessarias;
-    private int mesesIntervalo; // Tempo de espera entre as doses (se houver mais de uma)
+    private int mesesIntervalo; // Tempo de espera entre as doses (se aplicável)
 
-    // Construtor vazio
+    /**
+     * Construtor padrão exigido pelo JPA.
+     */
     public Vacina() {
     }
 
-    // Construtor completo
+    /**
+     * Construtor completo para facilitar a inicialização (Seed).
+     */
     public Vacina(Long id, String nome, String publicoAlvo, int dosesNecessarias, int mesesIntervalo) {
         this.id = id;
         this.nome = nome;
@@ -26,7 +36,8 @@ public class Vacina {
         this.mesesIntervalo = mesesIntervalo;
     }
 
-    // Getters e Setters
+    // --- Getters e Setters ---
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

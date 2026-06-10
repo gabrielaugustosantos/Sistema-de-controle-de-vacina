@@ -3,6 +3,10 @@ package vacinahub.domain;
 import java.time.LocalDate;
 import jakarta.persistence.*;
 
+/**
+ * Entidade associativa que registra a aplicação de uma vacina para um usuário específico.
+ * Registra o histórico e projeta datas futuras do ciclo vacinal.
+ */
 @Entity
 @Table(name = "tb_registro_vacina")
 public class RegistroVacina {
@@ -13,11 +17,12 @@ public class RegistroVacina {
     
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario; // Vínculo com o dono da vacina
+    private Usuario usuario; 
 
     @ManyToOne
     @JoinColumn(name = "vacina_id")
     private Vacina vacina;
+    
     private int doseAtual;
     private LocalDate dataAplicacao;
     private LocalDate dataProximaDose;
@@ -25,19 +30,24 @@ public class RegistroVacina {
     @Enumerated(EnumType.STRING)
     private DoseStatus status;
 
-    // O JPA construtor vazio para conseguir criar a tabela
+    /**
+     * Construtor padrão exigido pelo JPA.
+     */
     public RegistroVacina() {}
 
-    // Construtor completo usado pelo Service
+    /**
+     * Construtor utilizado pelos Services na criação de uma nova dose.
+     */
     public RegistroVacina(Usuario usuario, Vacina vacina, int doseAtual, DoseStatus status) {
         this.usuario = usuario;
         this.vacina = vacina;
         this.doseAtual = doseAtual;
         this.status = status;
-        this.dataAplicacao = LocalDate.now(); 
+        this.dataAplicacao = LocalDate.now(); // Valor padrão, pode ser sobrescrito pelos Services
     }
 
-    // Getters e Setters
+    // --- Getters e Setters ---
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
+/**
+ * Controlador MVC encarregado de interceptar as requisições HTTP,
+ * gerenciar o estado das sessões e alimentar as telas do Thymeleaf.
+ */
 @Controller
 public class WebController {
 
@@ -26,34 +30,28 @@ public class WebController {
     @Autowired private RegistroVacinaRepository registroVacinaRepository;
     @Autowired private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/") public String index() { return "index"; }
-    @GetMapping("/cadastro") public String cadastro() { return "cadastro"; }
+    // --- Rotas de Acesso Público e Autenticação ---
 
-    @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuario == null) return "redirect:/";
-
-        List<RegistroVacina> registros = registroVacinaRepository.findByUsuario(usuario);
-        
-        List<RegistroVacina> pendentes = registros.stream()
-            .filter(r -> r.getDoseStatus() == DoseStatus.PENDENTE)
-            .sorted(Comparator.comparing(RegistroVacina::getDataProximaDose))
-            .collect(Collectors.toList());
-
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("registros", registros); 
-        model.addAttribute("recomendacoes", pendentes);
-        model.addAttribute("nomeUsuario", usuario.getNome());
-        
-        return "dashboard";
+    @GetMapping("/") 
+    public String index() { 
+        return "index"; 
     }
 
-    // NOVA ROTA: Resolve o Erro 404 ao clicar em "Sair da conta"
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate(); // Limpa os dados do usuário da memória
-        return "redirect:/"; // Volta para a tela de login
+    @GetMapping("/cadastro") 
+    public String cadastro() { 
+        return "cadastro"; 
+    }
+
+    @PostMapping("/cadastro")
+    public String processarCadastro(@RequestParam String nome, @RequestParam String email, 
+                                   @RequestParam String senha, Model model) {
+        String resultado = authService.cadastrar(nome, email, senha);
+        if (resultado.equals("Cadastro realizado com sucesso")) {
+            model.addAttribute("mensagemSucesso", resultado);
+            return "index";
+        }
+        model.addAttribute("mensagemErro", resultado);
+        return "cadastro";
     }
 
     @PostMapping("/login")
@@ -67,26 +65,33 @@ public class WebController {
         return "index";
     }
 
-    @GetMapping("/registrar-vacina")
-    public String exibirForm(Model model) {
-        model.addAttribute("vacinas", vacinaRepository.findAll());
-        return "registrar-vacina";
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Destrói a sessão do usuário logado
+        return "redirect:/";
     }
 
-    @PostMapping("/registrar-vacina")
-    public String registrar(@RequestParam Long vacinaId, @RequestParam String dataAplicacao, HttpSession session) {
-        Usuario u = (Usuario) session.getAttribute("usuarioLogado");
-        if (u == null) return "redirect:/";
+    // --- Painéis Principais (Protegidos por Sessão) ---
 
-        Vacina v = vacinaRepository.findById(vacinaId).orElseThrow();
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) return "redirect:/";
+
+        List<RegistroVacina> registros = registroVacinaRepository.findByUsuario(usuario);
         
-        // Converte o texto que veio do formulário para o formato de Data do Java
-        LocalDate dataDaVacina = LocalDate.parse(dataAplicacao);
+        // Filtra apenas as vacinas PENDENTES e ordena por ordem cronológica da próxima dose
+        List<RegistroVacina> pendentes = registros.stream()
+            .filter(r -> r.getDoseStatus() == DoseStatus.PENDENTE)
+            .sorted(Comparator.comparing(RegistroVacina::getDataProximaDose))
+            .collect(Collectors.toList());
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("registros", registros); 
+        model.addAttribute("recomendacoes", pendentes);
+        model.addAttribute("nomeUsuario", usuario.getNome());
         
-        // Passa a data convertida para o Service fazer o cálculo!
-        vacinaService.registrarAplicacao(u, v, dataDaVacina, 1, DoseStatus.APLICADA);
-        
-        return "redirect:/dashboard";
+        return "dashboard";
     }
 
     @GetMapping("/caderneta")
@@ -101,33 +106,40 @@ public class WebController {
         return "caderneta";
     }
 
-    @PostMapping("/cadastrar")
-public String processarCadastro(@RequestParam String nome, @RequestParam String email, 
-                                @RequestParam String senha, Model model) {
-    String resultado = authService.cadastrar(nome, email, senha);
-    if (resultado.equals("Cadastro realizado com sucesso")) {
-        model.addAttribute("mensagemSucesso", resultado);
-        return "index";
+    // --- Fluxo de Gerenciamento de Vacinas ---
+
+    @GetMapping("/registrar-vacina")
+    public String exibirForm(Model model) {
+        model.addAttribute("vacinas", vacinaRepository.findAll());
+        return "registrar-vacina";
     }
-    model.addAttribute("mensagemErro", resultado);
-    return "cadastro";
-}
+
+    @PostMapping("/registrar-vacina")
+    public String registrar(@RequestParam Long vacinaId, @RequestParam String dataAplicacao, HttpSession session) {
+        Usuario u = (Usuario) session.getAttribute("usuarioLogado");
+        if (u == null) return "redirect:/";
+
+        Vacina v = vacinaRepository.findById(vacinaId).orElseThrow();
+        LocalDate dataDaVacina = LocalDate.parse(dataAplicacao);
+        
+        vacinaService.registrarAplicacao(u, v, dataDaVacina, 1, DoseStatus.APLICADA);
+        
+        return "redirect:/dashboard";
+    }
+
+    // --- Fluxo de Dependentes e Perfil ---
 
     @GetMapping("/cadastrar-dependente")
     public String exibirFormDependente(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) return "redirect:/";
         
-        return "cadastro-dependente"; // Abre o arquivo HTML
+        return "cadastro-dependente";
     }
 
-@PostMapping("/cadastrar-dependente")
-    public String cadastrarDependente(
-            @RequestParam String nome,
-            @RequestParam String dataNascimento,
-            @RequestParam String parentesco,
-            HttpSession session) {
-
+    @PostMapping("/cadastrar-dependente")
+    public String cadastrarDependente(@RequestParam String nome, @RequestParam String dataNascimento,
+                                      @RequestParam String parentesco, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) return "redirect:/";
 
@@ -135,15 +147,12 @@ public String processarCadastro(@RequestParam String nome, @RequestParam String 
         novoDependente.setNome(nome);
         novoDependente.setDataNascimento(LocalDate.parse(dataNascimento));
         novoDependente.setParentesco(parentesco);      
-
         novoDependente.setUsuario(usuario); 
         
         usuario.adicionarDependente(novoDependente);
+        usuario = usuarioRepository.save(usuario); // Persiste a cascata no banco de dados
         
-        usuario = usuarioRepository.save(usuario);
-        
-
-        session.setAttribute("usuarioLogado", usuario);
+        session.setAttribute("usuarioLogado", usuario); // Sincroniza a sessão na memória RAM
 
         return "redirect:/dashboard";
     }
@@ -157,18 +166,14 @@ public String processarCadastro(@RequestParam String nome, @RequestParam String 
     }
 
     @PostMapping("/completar-perfil")
-    public String salvarPerfil(
-            @RequestParam String dataNascimento, 
-            @RequestParam String genero, 
-            HttpSession session) {
-            
+    public String salvarPerfil(@RequestParam String dataNascimento, @RequestParam String genero, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
         if (usuario == null) return "redirect:/";
 
         usuario.setDataNascimento(LocalDate.parse(dataNascimento));
         usuario.setGenero(genero); 
         
-        authService.cadastrar(usuario.getNome(), usuario.getEmail(), usuario.getSenha());
+        usuarioRepository.save(usuario); // Atualiza os dados cadastrais diretamente por UPDATE
 
         return "redirect:/dashboard";
     }

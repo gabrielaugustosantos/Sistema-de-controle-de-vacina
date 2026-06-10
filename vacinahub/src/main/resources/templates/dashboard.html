@@ -28,7 +28,7 @@
     .logout-item { color:rgba(255,255,255,0.6); }
     .logout-item:hover { color:#fca5a5; background:rgba(239,68,68,0.15); }
 
-    /* ── Main ── */
+    /* ── Main Layout ── */
     .main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; }
     .topbar { background:var(--card); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); box-shadow:var(--shadow); position:sticky; top:0; z-index:50; }
     .topbar-left { display:flex; align-items:center; gap:12px; }
@@ -39,24 +39,21 @@
     .user-name { font-size:14px; font-weight:500; }
     .content { padding:28px; flex:1; }
 
-    /* ── Cards ── */
+    /* ── Grades de Componentes (Responsividade) ── */
     .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
-    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
     .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
     .card { background:var(--card); border-radius:14px; padding:22px; box-shadow:var(--shadow); transition:background 0.3s; }
     .card-sm { padding:18px; }
 
-    /* Hero card */
+    /* Banner de Destaque (Hero) */
     .hero-card { background:linear-gradient(135deg,var(--primary) 0%,#0d3b7a 100%); color:white; border-radius:16px; padding:28px 32px; display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; box-shadow:0 4px 20px rgba(26,86,160,0.3); }
     [data-theme="dark"] .hero-card { box-shadow:0 4px 20px rgba(59,130,246,0.2); }
     .hero-card .label { font-size:11px; font-weight:700; letter-spacing:1px; opacity:.7; margin-bottom:6px; text-transform:uppercase; }
     .hero-card h2 { font-size:28px; font-weight:800; color:#5dde7a; margin-bottom:12px; }
     .hero-card p { font-size:13px; opacity:.8; margin-bottom:16px; }
-    .btn-white { background:white; color:var(--primary); border:none; padding:9px 20px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; transition:opacity 0.2s; }
-    .btn-white:hover { opacity:.9; }
-    .hero-icon { font-size:64px; opacity:.4; }
-
-    /* Stat cards */
+    .btn-white { background:white; color:var(--primary); border:none; padding:9px 20px; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; }
+    
+    /* Indicadores Rápidos (Stats) */
     .stat-card { background:var(--card); border-radius:12px; padding:20px; box-shadow:var(--shadow); display:flex; align-items:center; gap:16px; }
     .stat-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
     .stat-icon.blue { background:var(--primary-light); color:var(--primary); }
@@ -69,41 +66,29 @@
     .stat-val { font-size:22px; font-weight:800; }
     .stat-label { font-size:12px; color:var(--text-muted); }
 
-    /* Section headers */
+    /* Cabeçalhos de Seções */
     .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
     .section-title { font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }
     .section-link { font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; }
     .section-link:hover { text-decoration:underline; }
 
-    /* Vacina item */
+    /* Listas de Vacinas */
     .vacina-item { display:flex; align-items:flex-start; gap:14px; padding:14px 0; border-bottom:1px solid var(--border); }
     .vacina-item:last-child { border-bottom:none; }
     .vacina-dot { width:10px; height:10px; border-radius:50%; margin-top:4px; flex-shrink:0; }
-    .vacina-dot.green { background:#22c55e; }
     .vacina-dot.orange { background:#f59e0b; }
-    .vacina-dot.blue { background:var(--primary); }
     .vacina-nome { font-size:14px; font-weight:600; margin-bottom:3px; }
     .vacina-obs { font-size:12px; color:var(--text-muted); }
-    .vacina-badge { margin-left:auto; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
-    .badge-rec { background:#dbeafe; color:#1d4ed8; }
-    .badge-ok { background:#dcfce7; color:#15803d; }
-    [data-theme="dark"] .badge-rec { background:#1e3a5f; color:#93c5fd; }
-    [data-theme="dark"] .badge-ok { background:#052e16; color:#86efac; }
+    .vacina-badge { margin-left:auto; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; white-space:nowrap; }
 
-    /* Quick actions */
+    /* Cards de Atalhos */
     .action-card { background:var(--card); border-radius:12px; padding:20px; box-shadow:var(--shadow); text-decoration:none; color:var(--text); display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; transition:transform 0.2s,box-shadow 0.2s; border:2px solid transparent; }
     .action-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.1); border-color:var(--primary); }
     .action-icon { width:44px; height:44px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; }
     .action-label { font-size:13px; font-weight:600; }
 
-    /* Progress bar */
-    .progress-wrap { margin-top:10px; }
-    .progress-label { display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted); margin-bottom:6px; }
-    .progress-bar { background:var(--border); border-radius:999px; height:8px; overflow:hidden; }
-    .progress-fill { background:var(--accent); height:100%; border-radius:999px; transition:width 0.5s; }
-
-    /* Mobile */
     .mobile-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:99; }
+    
     @media (max-width:900px) {
       .sidebar { transform:translateX(-100%); }
       .sidebar.open { transform:translateX(0); }
@@ -111,14 +96,7 @@
       .mobile-overlay.show { display:block; }
       .main { margin-left:0; }
       .menu-btn { display:flex; }
-      .grid-4 { grid-template-columns:repeat(2,1fr); }
-      .grid-3 { grid-template-columns:repeat(2,1fr); }
-      .grid-2 { grid-template-columns:1fr; }
-      .hero-card .hero-icon { display:none; }
-    }
-    @media (max-width:600px) {
-      .grid-4, .grid-3 { grid-template-columns:1fr; }
-      .hero-card h2 { font-size:22px; }
+      .grid-4, .grid-2 { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -132,29 +110,15 @@
       <button class="sidebar-close" onclick="toggleSidebar()"><i data-lucide="x" width="18" height="18"></i></button>
     </div>
     <nav class="sidebar-nav">
-      <a href="/dashboard" class="nav-item active">
-        <i data-lucide="layout-dashboard" width="18" height="18"></i><span>Visão Geral</span>
-      </a>
-      <a href="/caderneta" class="nav-item">
-        <i data-lucide="clipboard-list" width="18" height="18"></i><span>Minha Caderneta</span>
-      </a>
-      <a href="/registrar-vacina" class="nav-item">
-        <i data-lucide="syringe" width="18" height="18"></i><span>Registrar Vacina</span>
-      </a>
-      <a href="/cadastrar-dependente" class="nav-item">
-        <i data-lucide="users" width="18" height="18"></i><span>Dependentes</span>
-      </a>
-      <a href="/postos-proximos" class="nav-item">
-        <i data-lucide="map-pin" width="18" height="18"></i><span>Postos Próximos</span>
-      </a>
+      <a href="/dashboard" class="nav-item active"><i data-lucide="layout-dashboard" width="18" height="18"></i><span>Visão Geral</span></a>
+      <a href="/caderneta" class="nav-item"><i data-lucide="clipboard-list" width="18" height="18"></i><span>Minha Caderneta</span></a>
+      <a href="/registrar-vacina" class="nav-item"><i data-lucide="syringe" width="18" height="18"></i><span>Registrar Vacina</span></a>
+      <a href="/cadastrar-dependente" class="nav-item"><i data-lucide="users" width="18" height="18"></i><span>Dependentes</span></a>
+      <a href="#" class="nav-item"><i data-lucide="map-pin" width="18" height="18"></i><span>Postos Próximos</span></a>
     </nav>
     <div class="sidebar-footer">
-      <button class="theme-btn" onclick="toggleTheme()">
-        <i data-lucide="moon" width="16" height="16"></i><span>Modo noturno</span>
-      </button>
-      <a href="/logout" class="nav-item logout-item">
-        <i data-lucide="log-out" width="18" height="18"></i><span>Sair da conta</span>
-      </a>
+      <button class="theme-btn" onclick="toggleTheme()"><i data-lucide="moon" width="16" height="16"></i><span>Modo noturno</span></button>
+      <a href="/logout" class="nav-item logout-item"><i data-lucide="log-out" width="18" height="18"></i><span>Sair da conta</span></a>
     </div>
   </aside>
 
@@ -172,20 +136,18 @@
 
     <div class="content">
 
-      <!-- Hero -->
       <div class="hero-card">
         <div>
           <div class="label">Próxima Vacina</div>
           <h2 th:if="${recomendacoes != null and !recomendacoes.empty}" th:text="${recomendacoes[0].vacina.nome}">Influenza</h2>
           <h2 th:if="${recomendacoes == null or recomendacoes.empty}">Tudo em dia!</h2>
-          <p th:if="${recomendacoes != null and !recomendacoes.empty}" th:text="'Agendada para: ' + ${#temporals.format(recomendacoes[0].dataProximaDose, 'dd/MM/yyyy')}">Anualmente</p>
+          <p th:if="${recomendacoes != null and !recomendacoes.empty}" th:text="'Agendada para: ' + ${#temporals.format(recomendacoes[0].dataProximaDose, 'dd/MM/yyyy')}">Data</p>
           <a href="/caderneta" class="btn-white">Ver Caderneta</a>
         </div>
         <div class="hero-icon"><i data-lucide="shield-check" width="80" height="80" style="opacity:.25"></i></div>
       </div>
 
-      <!-- Stats -->
-      <div class="grid-4" style="margin-bottom:24px;">
+      <div class="grid-4">
         <div class="stat-card">
           <div class="stat-icon blue"><i data-lucide="syringe" width="22" height="22"></i></div>
           <div>
@@ -217,16 +179,13 @@
       </div>
 
       <div class="grid-2">
-        <!-- Vacinas Recomendadas -->
         <div class="card">
+          <div class="section-header">
+            <span class="section-title"><i data-lucide="alert-circle" width="16" height="16" style="color:var(--primary)"></i>Próximas Vacinas</span>
+          </div>
           <div th:if="${recomendacoes == null or recomendacoes.empty}" style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">
-    <p style="margin-bottom: 12px;">Complete seu perfil para o sistema calcular sua idade e sugerir as vacinas ideais.</p>
-    <a href="/completar-perfil" class="btn-primary" style="display: inline-block; width: auto; padding: 8px 16px; text-decoration: none;">
-        Completar Perfil Agora
-    </a>
-</div>
-          <div th:if="${recomendacoes == null or recomendacoes.empty}" style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">
-            Complete seu perfil para ver as recomendações.
+            <p style="margin-bottom: 12px;">Complete seu perfil para o sistema calcular sua idade e sugerir as vacinas ideais.</p>
+            <a href="/completar-perfil" class="btn-white" style="border:1px solid var(--border); background:var(--bg); color:var(--primary)">Completar Perfil Agora</a>
           </div>
           <div th:each="v, iter : ${recomendacoes}" th:if="${v != null and iter.index < 6}">
             <div class="vacina-item">
@@ -235,20 +194,16 @@
                 <div class="vacina-nome" th:text="${v.vacina.nome}">Nome</div>
                 <div class="vacina-obs" th:text="${v.doseAtual + 'ª Dose • ' + #temporals.format(v.dataProximaDose, 'dd/MM/yyyy')}">Doses</div>
               </div>
-              <span class="vacina-badge badge-rec" style="background:#fef3c7; color:#d97706;" th:text="${v.vacina.publicoAlvo}">Pendente</span>
+              <span class="vacina-badge" style="background:#fef3c7; color:#d97706;" th:text="${v.vacina.publicoAlvo}">Pendente</span>
             </div>
           </div>
         </div>
 
-        <!-- Ações rápidas -->
         <div>
           <div class="section-header">
-            <span class="section-title">
-              <i data-lucide="zap" width="16" height="16" style="color:var(--primary)"></i>
-              Ações Rápidas
-            </span>
+            <span class="section-title"><i data-lucide="zap" width="16" height="16" style="color:var(--primary)"></i>Ações Rápidas</span>
           </div>
-          <div class="grid-2" style="margin-bottom:0;">
+          <div class="grid-2">
             <a href="/caderneta" class="action-card">
               <div class="action-icon"><i data-lucide="clipboard-list" width="20" height="20"></i></div>
               <span class="action-label">Minha Caderneta</span>
@@ -261,40 +216,32 @@
               <div class="action-icon"><i data-lucide="user-plus" width="20" height="20"></i></div>
               <span class="action-label">Novo Dependente</span>
             </a>
-            <a href="/postos-proximos" class="action-card">
+            <a href="#" class="action-card">
               <div class="action-icon"><i data-lucide="map-pin" width="20" height="20"></i></div>
               <span class="action-label">Postos Próximos</span>
             </a>
           </div>
 
-          <!-- Dependentes -->
           <div class="card card-sm" style="margin-top:16px;" th:if="${usuario != null and !usuario.dependentes.empty}">
             <div class="section-header" style="margin-bottom:10px;">
-              <span class="section-title" style="font-size:13px;">
-                <i data-lucide="users" width="14" height="14" style="color:var(--primary)"></i>
-                Dependentes
-              </span>
-              <a href="/caderneta" class="section-link">Ver</a>
+              <span class="section-title" style="font-size:13px;"><i data-lucide="users" width="14" height="14" style="color:var(--primary)"></i>Dependentes</span>
+              <a href="/caderneta" class="section-link">Ver todos</a>
             </div>
-            <div th:each="v, iter : ${recomendacoes}" th:if="${iter.index < 6}">
-            <div class="vacina-item">
-              <div class="vacina-dot orange"></div>
-              <div>
-                <div th:each="dep : ${usuario.dependentes}" th:if="${dep != null}">
-  <div class="vacina-item" style="padding:8px 0;">
-    <div class="stat-icon blue" style="width:32px;height:32px;border-radius:8px;flex-shrink:0;">
-      <i data-lucide="user" width="14" height="14"></i>
-    </div>
-    <div>
-      <div style="font-size:13px;font-weight:600;" th:text="${dep.nome}">Nome</div>
-      <div style="font-size:11px;color:var(--text-muted);" th:text="${dep.parentesco}">Parentesco</div>
-    </div>
-  </div>
-</div>
+            <div th:each="dep : ${usuario.dependentes}" th:if="${dep != null}">
+              <div class="vacina-item" style="padding:8px 0; border-bottom:1px solid var(--border);">
+                <div class="stat-icon blue" style="width:32px;height:32px;border-radius:8px;flex-shrink:0;">
+                  <i data-lucide="user" width="14" height="14"></i>
+                </div>
+                <div>
+                  <div style="font-size:13px;font-weight:600;" th:text="${dep.nome}">Nome</div>
+                  <div style="font-size:11px;color:var(--text-muted);" th:text="${dep.parentesco}">Parentesco</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        
       </div>
-
     </div>
   </div>
 
